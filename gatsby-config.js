@@ -9,7 +9,7 @@ module.exports = {
     description: `Terminal -command-line themed portfolio featuring projects ranging from robust Gatsby PWA's, React APPs and FullStack Web APPs utilizing cloud platforms to simple HTML, CSS and JavaScript sites.`,
     author: `@UtsavMoradiya`,
     url: "https://utsavmoradiya.in",
-    image: "/PortfolioSS-sm.png", // Path to your image you placed in the 'static' folder
+    image: "/PortfolioSS.png", // Path to your image you placed in the 'static' folder
     twitterUsername: "@Utavmoradiya3",
   },
   plugins: [
