@@ -1,6 +1,6 @@
 ---
 slug: "projects/algotradingbot"
-added: "2023-05-05"
+added: "2023-11-05"
 nameOfClass: "projects-items Projects"
 title: "Algo Trading Bot"
 listName: "👨‍🔬 /Algo-Trading-Bot"
