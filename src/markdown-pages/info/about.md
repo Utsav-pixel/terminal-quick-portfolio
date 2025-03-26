@@ -28,7 +28,8 @@ techIcons: [
 Cloud: [
   "netlify",
   "googlecloud",
-  "amazonaws"
+  "amazonaws",
+  "vercel"
 ]
 ---
 

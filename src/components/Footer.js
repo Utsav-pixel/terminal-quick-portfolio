@@ -5,6 +5,8 @@ import WinBox from "winbox/src/js/winbox"
 import Contact from "./Contact"
 import { Link } from "gatsby"
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {  faPhone} from "@fortawesome/free-solid-svg-icons"
 
 const checkScreenWidthMobile = () => {
   if (typeof window !== `undefined`) {
@@ -12,38 +14,40 @@ const checkScreenWidthMobile = () => {
   }
 }
 
-const desktopButton = (
-  <button
-    className="popupWindowLinkButton"
-    style={{ cursor: "pointer" }}
-    onClick={() => {
-      const win = new WinBox({
-        title: "Contact me",
-        width: "80%",
-        height: "80%",
-        x: "center",
-        y: "center",
-        onfocus: function () {
-          this.removeClass("wb-no-focus")
-          this.addClass("wb-focus")
-        },
-        onblur: function () {
-          this.removeClass("wb-focus")
-          this.addClass("wb-no-focus")
-        },
-      })
+export const desktopButton = (fromCallText = true) => {
+  return (
+    <button
+      className="popupWindowLinkButton"
+      style={{ cursor: "pointer", background: "none", border: "none" }}
+      onClick={() => {
+        const win = new WinBox({
+          title: "Contact me",
+          width: "80%",
+          height: "80%",
+          x: "center",
+          y: "center",
+          onfocus: function () {
+            this.removeClass("wb-no-focus")
+            this.addClass("wb-focus")
+          },
+          onblur: function () {
+            this.removeClass("wb-focus")
+            this.addClass("wb-no-focus")
+          },
+        })
 
-      ReactDOM.render(
-        React.createElement(Contact, {
-          close: () => win.close(),
-        }),
-        win.body
-      )
-    }}
-  >
-    Contact
-  </button>
-)
+        ReactDOM.render(
+          React.createElement(Contact, {
+            close: () => win.close(),
+          }),
+          win.body
+        )
+      }}
+    >
+      {fromCallText ? "Contact" : <FontAwesomeIcon icon={faPhone} className="popupTerminalWindowLinkIcon" size="2x" />}
+    </button>
+  )
+}
 
 const Footer = () => {
 
@@ -79,7 +83,7 @@ const Footer = () => {
         {checkScreenWidthMobile() ? (
           <Link to="/contact">Contact</Link>
         ) : (
-          desktopButton
+          desktopButton()
         )}
         {" | "}
         <a

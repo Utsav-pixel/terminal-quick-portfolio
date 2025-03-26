@@ -3,9 +3,18 @@ import Typewriter from "typewriter-effect"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGithub, faHackerrank, faLinkedin } from "@fortawesome/free-brands-svg-icons"
 import { faLaptopCode, faLink, faPhone ,faEnvelope} from "@fortawesome/free-solid-svg-icons"
+import { Link } from "gatsby"
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { desktopButton } from '../components/Footer'
+const checkScreenWidthMobile = () => {
+  if (typeof window !== `undefined`) {
+    return window.screen.width < 1024 ? true : false
+  }
+}
+
+
 
 export default function PopupTerminalWindow({
   title,
@@ -268,15 +277,13 @@ export default function PopupTerminalWindow({
               ""
             )}
             
-            {popupLCLink ? (
-   <a
-   href="tel:+1234567890"  // Replace with the actual phone number
-   target="_blank"
-   rel="noopener noreferrer"
- >
-   <FontAwesomeIcon icon={faPhone} className="popupTerminalWindowLinkIcon" size="2x" />
- </a>
-            ) : (
+            {popupLCLink ? 
+              checkScreenWidthMobile() ? (
+                <Link to="/contact">   <FontAwesomeIcon icon={faPhone} className="popupTerminalWindowLinkIcon" size="2x" /></Link>
+              ) : (
+                desktopButton(false)
+              )
+            : (
               ""
             )}
           </div>
