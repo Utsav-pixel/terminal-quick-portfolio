@@ -63,6 +63,33 @@ export default function ItemsList() {
           }
         }
       }
+      blogs: allMarkdownRemark(
+        filter: { fileAbsolutePath: { regex: "//blogs/[^/]+$/" } }
+        sort: {
+          fields: [frontmatter___added, frontmatter___title]
+          order: DESC
+        }
+      ) {
+        edges {
+          node {
+            frontmatter {
+              listName
+              nameOfClass
+              popupImageAlt
+              popupImageSrc
+              title
+              slug
+              video
+              added
+              metaTags
+              metaLinks
+              metaDescription
+            }
+            html
+            fileAbsolutePath
+          }
+        }
+      }
       info: allMarkdownRemark(
         filter: { fileAbsolutePath: { regex: "//info/[^/]+$/" } }
       ) {
@@ -100,7 +127,6 @@ export default function ItemsList() {
               nameOfClass
               title
               slug
-
             }
             html
             fileAbsolutePath
@@ -144,6 +170,9 @@ export default function ItemsList() {
         popupLCLink: item.node.frontmatter.popupLCLink,
         popupLILink: item.node.frontmatter.popupLILink,
         popupLiveLink: item.node.frontmatter.popupLiveLink,
+        metaTags: item.node.frontmatter.metaTags,
+        metaLinks: item.node.frontmatter.metaLinks,
+        metaDescription: item.node.frontmatter.metaDescription,
         techIcons: item.node.frontmatter.techIcons,
         Cloud: item.node.frontmatter.Cloud,
         html: item.node.html,
@@ -165,20 +194,19 @@ export default function ItemsList() {
   ))
 
   const skills = data.skills.edges.map(item => {
-    return(
-       <li key={item.node.frontmatter.title} className="infoItem">
-      <button
-        className="popupWindowLinkButton"
-        style={{ cursor: "pointer" }}
-        onClick={() => createWinboxInstance(item)}
-      >
-        {item.node.frontmatter.listName}
-      </button>
-    </li>
+    return (
+      <li key={item.node.frontmatter.title} className="infoItem">
+        <button
+          className="popupWindowLinkButton"
+          style={{ cursor: "pointer" }}
+          onClick={() => createWinboxInstance(item)}
+        >
+          {item.node.frontmatter.listName}
+        </button>
+      </li>
     )
-  }
-  )
-   const infoMobile = data.info.edges.map(item => (
+  })
+  const infoMobile = data.info.edges.map(item => (
     <li key={item.node.frontmatter.title} className="infoItem">
       <Link
         className="popupWindowLinkButton"
@@ -191,20 +219,18 @@ export default function ItemsList() {
   ))
   const skillsMobile = data.skills.edges.map(item => {
     return (
-        <li key={item.node.frontmatter.title} className="infoItem">
-      <Link
-        className="popupWindowLinkButton"
-        style={{ cursor: "pointer" }}
-        to={item.node.frontmatter.slug}
-      >
-        {item.node.frontmatter.listName}
-      </Link>
-    </li>
+      <li key={item.node.frontmatter.title} className="infoItem">
+        <Link
+          className="popupWindowLinkButton"
+          style={{ cursor: "pointer" }}
+          to={item.node.frontmatter.slug}
+        >
+          {item.node.frontmatter.listName}
+        </Link>
+      </li>
     )
-  }
-  )
-  
-  
+  })
+
   const projects = data.projects.edges.map(item => (
     <li
       key={item.node.frontmatter.title}
@@ -235,6 +261,47 @@ export default function ItemsList() {
   ))
 
   const projectsMobile = data.projects.edges.map(item => (
+    <li
+      key={item.node.frontmatter.title}
+      className={item.node.frontmatter.nameOfClass}
+    >
+      <Link
+        className="popupWindowLinkButton"
+        style={{ cursor: "pointer" }}
+        to={item.node.frontmatter.slug}
+      >
+        {item.node.frontmatter.listName}
+      </Link>
+    </li>
+  ))
+
+  const blogs = data.blogs.edges.map(item => (
+    <li
+      key={item.node.frontmatter.title}
+      className={item.node.frontmatter.nameOfClass}
+      style={{ display: "flex", alignItems: "center", width: "100%" }}
+    >
+      <button
+        className="popupWindowLinkButton"
+        style={{ cursor: "pointer", width: "30%" }}
+        onClick={() => createWinboxInstance(item)}
+      >
+        {item.node.frontmatter.listName}
+      </button>
+      <span
+        style={{
+          fontSize: "x-small",
+          paddingLeft: "0.5rem",
+          textJustify: "right",
+          width: "70%",
+        }}
+      >
+        {`lrwxr-xr-x 1 ${item.node.frontmatter.added} ${item.node.frontmatter.slug}  `}
+      </span>
+    </li>
+  ))
+
+  const blogsMobile = data.blogs.edges.map(item => (
     <li
       key={item.node.frontmatter.title}
       className={item.node.frontmatter.nameOfClass}
@@ -290,9 +357,13 @@ export default function ItemsList() {
   const mappedItems = () => {
     return (
       <>
-        <li>→ Info:</li> {info} {skills} {contactItem} <li>→ Projects:</li>
+        <li>→ Info:</li>
+        {info} {skills} {contactItem}
+        <li>→ Projects:</li>
         {projects}
-         {/* <li className="miniProject">→ Mini-Projects:</li> */}
+        <li>→ Blogs:</li>
+        {blogs}
+        {/* <li className="miniProject">→ Mini-Projects:</li> */}
       </>
     )
   }
@@ -300,7 +371,8 @@ export default function ItemsList() {
   const mappedItemsMobile = () => {
     return (
       <>
-        <li>→ Info:</li> {infoMobile}{skillsMobile}{" "}
+        <li>→ Info:</li>
+        {infoMobile} {skillsMobile}{" "}
         <li className="infoItem">
           <Link
             className="popupWindowLinkButton"
@@ -314,8 +386,9 @@ export default function ItemsList() {
           </Link>
         </li>{" "}
         <li>→ Projects:</li>
-        {projectsMobile} 
-        {/* {projects} */}
+        {projectsMobile}
+        <li>→ Blogs:</li>
+        {blogsMobile}
         {/* <li className="miniProject">→ Mini-Projects:</li> */}
       </>
     )
